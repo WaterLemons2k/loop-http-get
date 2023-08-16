@@ -1,0 +1,20 @@
+[package]
+name = "loop-http-get"
+version = "1.0.0"
+edition = "2021"
+license = "MIT"
+description = "Send an HTTP GET every 60 seconds."
+readme = "README.md"
+homepage = "https://github.com/WaterLemons2k/loop-http-get"
+repository = "https://github.com/WaterLemons2k/loop-http-get"
+
+
+[dependencies]
+minreq = "2.8.1"
+
+[profile.release]
+opt-level = 'z'
+lto = true
+codegen-units = 1
+panic = 'abort'
+strip = true

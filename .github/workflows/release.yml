@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build
+        shell: bash
+        run: |
+          # For x86_64-unknown-linux-musl
+          sudo apt install musl-tools
+          # For x86_64-pc-windows-msvc
+          cargo install cargo-xwin
+
+          for target in ${{ env.TARGETS }}; do
+            echo "Building $target..."
+            rustup target add "$target"
+            cargo xwin build --target "$target" --release
+
+            BIN_DIR="target/$target/release"
+            FILE="$PWD/${{ env.BIN_NAME }}-$GITHUB_REF_NAME-$target."
+            cd "$BIN_DIR" || exit 1
+
+            if [[ "$target" == "x86_64-pc-windows-msvc" ]]; then
+              FILE+="zip"
+              7z a "$FILE" "${{ env.BIN_NAME }}.exe"
+            else
+              FILE+="tar.gz"
+              tar czf "$FILE" "${{ env.BIN_NAME }}"
+            fi
+            cd ../../.. || exit 1
+          done
+        env:
+          BIN_NAME: loop-http-get
+          TARGETS: x86_64-pc-windows-msvc x86_64-unknown-linux-musl
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            *.tar.gz
+            *.zip
+
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Publish
+        run: cargo publish
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
