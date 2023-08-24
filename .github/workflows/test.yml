@@ -20,7 +20,7 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@1.60
         with:
-          components: rustfmt
+          components: clippy, rustfmt
 
       - name: Cache
         uses: actions/cache@v3
