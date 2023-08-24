@@ -17,6 +17,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@1.60
+        with:
+          components: clippy, rustfmt
+
       - name: Cache
         uses: actions/cache@v3
         with:
@@ -28,5 +33,9 @@ jobs:
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
-      - name: Build
-        run: cargo build --verbose
+      - name: Cargo
+        run: |
+          cargo build --verbose
+          cargo check
+          cargo fmt --all -- --check
+          cargo clippy -- -D warnings
