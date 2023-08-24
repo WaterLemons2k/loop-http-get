@@ -1,10 +1,13 @@
 [package]
 name = "loop-http-get"
-version = "1.0.0"
+version = "1.0.1"
+rust-version = "1.59"
 edition = "2021"
 license = "MIT"
-description = "Send an HTTP GET every 60 seconds."
+description = "Send an HTTP GET every minute."
 readme = "README.md"
+keywords = ["http", "http-get", "client", "loop", "network"]
+categories = ["web-programming::http-client"]
 homepage = "https://github.com/WaterLemons2k/loop-http-get"
 repository = "https://github.com/WaterLemons2k/loop-http-get"
 
