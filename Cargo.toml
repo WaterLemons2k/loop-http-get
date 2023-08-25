@@ -1,7 +1,7 @@
 [package]
 name = "loop-http-get"
-version = "1.0.1"
-rust-version = "1.60"
+version = "1.0.2"
+rust-version = "1.56"
 edition = "2021"
 license = "MIT"
 description = "Send an HTTP GET every minute."
@@ -20,4 +20,3 @@ opt-level = 'z'
 lto = true
 codegen-units = 1
 panic = 'abort'
-strip = true
