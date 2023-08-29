@@ -13,7 +13,7 @@ repository = "https://github.com/WaterLemons2k/loop-http-get"
 
 
 [dependencies]
-minreq = "2.9.0"
+minreq = "2.9.1"
 
 [profile.release]
 opt-level = 'z'
